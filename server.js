@@ -1,14 +1,17 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
 const cors = require("cors");
+const colors = require("colors");
 const PORT = process.env.PORT || 5000;
 
 // Local imports
 const GoalRoutes = require("./routes/GoalRoutes");
 const { errorHandler } = require("./middlewares/errorMiddleware");
+const connectDB = require("./config/db");
 
 // Initialize app
 const app = express();
+connectDB();
 
 // Connect to Mongo DB
 
