@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 5000;
 
 // Local imports
 const GoalRoutes = require("./routes/GoalRoutes");
+const userRoutes = require("./routes/userRoutes");
 const { errorHandler } = require("./middlewares/errorMiddleware");
 const connectDB = require("./config/db");
 
@@ -23,6 +24,7 @@ app.use(errorHandler);
 
 // Routes
 app.use("/api/goals", GoalRoutes);
+app.use("/api/users", userRoutes);
 
 // Listening
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
