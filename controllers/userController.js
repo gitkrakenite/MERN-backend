@@ -79,7 +79,17 @@ const loginUser = expressAsyncHandler(async (req, res) => {
 // METHOD   ->  GET /api/users/me
 // ACCESS   ->  Private
 const getMe = expressAsyncHandler(async (req, res) => {
-  res.send("user data");
+  // Now this is a bit confusing. We will get the logged in credentials like name email and id through the middleware. In authMiddleware, we set the req.user to the id in the bearer token. Then in the userRoutes, we call the authMiddleware begore /getMe. That gives us access to the req.user body..
+
+  // If you want to get another persons details, you need to pass in the req.params.id directly. and it should not be a protected route.
+
+  const { _id, name, email } = await User.findById(req.user.id);
+
+  res.status(200).json({
+    id: _id,
+    name,
+    email,
+  });
 });
 
 // Okay now we need a jwt token when the user registers and logs in. We give it the user id who logs in

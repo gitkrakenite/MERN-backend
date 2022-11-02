@@ -7,12 +7,16 @@ const {
 } = require("../controllers/goals");
 const router = express.Router();
 
-router.get("/", getGoals);
+const protect = require("../middlewares/authMiddleware");
 
-router.post("/", setGoals);
+// You can see everyone's goal. But when you add protect middleware you see the ones associated by your id
 
-router.put("/:id", updateGoal);
+router.get("/", protect, getGoals);
 
-router.delete("/:id", deleteGoal);
+router.post("/", protect, setGoals);
+
+router.put("/:id", protect, updateGoal);
+
+router.delete("/:id", protect, deleteGoal);
 
 module.exports = router;
