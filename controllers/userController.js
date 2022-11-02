@@ -42,6 +42,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
       _id: user.id,
       name: user.name,
       email: user.email,
+      token: generateToken(user._id),
     });
   } else {
     res.status(500);
@@ -66,6 +67,7 @@ const loginUser = expressAsyncHandler(async (req, res) => {
       _id: user.id,
       name: user.name,
       email: user.email,
+      token: generateToken(user._id),
     });
   } else {
     res.status(500);
@@ -75,9 +77,16 @@ const loginUser = expressAsyncHandler(async (req, res) => {
 
 // @DESC    ->  Get user data user
 // METHOD   ->  GET /api/users/me
-// ACCESS   ->  Public
+// ACCESS   ->  Private
 const getMe = expressAsyncHandler(async (req, res) => {
   res.send("user data");
 });
+
+// Okay now we need a jwt token when the user registers and logs in. We give it the user id who logs in
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
+};
 
 module.exports = { registerUser, getMe, loginUser };
